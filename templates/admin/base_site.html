@@ -1,0 +1,188 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}ROHA Studio CMS & Builder{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #172a2b;
+    --primary-light: #205b63;
+    --accent: #d4af37;
+    --accent-teal: #395e63;
+    --surface: #ffffff;
+    --surface-alt: #f8fafc;
+    --border: #e2e8f0;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    background: #f1f5f9 !important;
+    color: var(--text-main) !important;
+  }
+
+  #header {
+    background: linear-gradient(135deg, #112122 0%, #172a2b 50%, #205b63 100%) !important;
+    color: #ffffff !important;
+    padding: 14px 30px !important;
+    box-shadow: 0 4px 20px rgba(17, 33, 34, 0.25) !important;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3) !important;
+  }
+
+  #branding h1 {
+    font-weight: 800 !important;
+    font-size: 18px !important;
+    letter-spacing: 0.05em !important;
+    margin: 0 !important;
+  }
+
+  #branding h1 a {
+    color: #ffffff !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    text-decoration: none !important;
+  }
+
+  .roha-logo-badge {
+    background: linear-gradient(135deg, #d4af37, #f3e5ab);
+    color: #112122;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: 900;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+
+  .studio-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: 25px;
+  }
+
+  .studio-pill-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff !important;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.2s ease;
+  }
+
+  .studio-pill-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(212, 175, 55, 0.8);
+    transform: translateY(-1px);
+  }
+
+  /* Tables and Lists */
+  #changelist table {
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    border: 1px solid #e2e8f0 !important;
+    background: #ffffff !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
+  }
+
+  #changelist table thead th {
+    background: #172a2b !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    font-size: 12px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    padding: 12px 14px !important;
+  }
+
+  #changelist table tbody tr:nth-child(even) {
+    background: #f8fafc !important;
+  }
+
+  #changelist table tbody tr:hover {
+    background: #f0fdfa !important;
+  }
+
+  /* Form & Inlines Styling */
+  .module {
+    border-radius: 12px !important;
+    border: 1px solid #e2e8f0 !important;
+    background: #ffffff !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04) !important;
+    margin-bottom: 24px !important;
+    overflow: hidden !important;
+  }
+
+  .module h2 {
+    background: linear-gradient(90deg, #172a2b, #205b63) !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    letter-spacing: 0.03em !important;
+    padding: 12px 18px !important;
+  }
+
+  /* Section Builder Badges */
+  .builder-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .badge-hero { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+  .badge-philosophy { background: #f3e8ff; color: #7e22ce; border: 1px solid #e9d5ff; }
+  .badge-expertise { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+  .badge-cta { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+  .badge-banner { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
+
+  /* Submit Buttons */
+  .submit-row input.default, .button.default {
+    background: #205b63 !important;
+    border-radius: 8px !important;
+    font-weight: 700 !important;
+    padding: 10px 22px !important;
+    transition: all 0.2s ease !important;
+  }
+  .submit-row input.default:hover, .button.default:hover {
+    background: #172a2b !important;
+  }
+</style>
+{% endblock %}
+
+{% block branding %}
+<div id="site-name" style="display: flex; align-items: center;">
+  <h1>
+    <a href="{% url 'admin:index' %}">
+      <span class="roha-logo-badge">ROHA</span>
+      <span>STUDIO ARCHITECTURAL CMS & BUILDER</span>
+    </a>
+  </h1>
+  <div class="studio-nav-links">
+    <a href="http://localhost:5173" target="_blank" class="studio-pill-btn">
+      <span>🌐 Live Frontend</span>
+      <span style="opacity: 0.7;">↗</span>
+    </a>
+    <a href="{% url 'swagger-ui' %}" target="_blank" class="studio-pill-btn">
+      <span>⚡ Swagger API Docs</span>
+      <span style="opacity: 0.7;">↗</span>
+    </a>
+  </div>
+</div>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
