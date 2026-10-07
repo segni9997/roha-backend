@@ -30,10 +30,12 @@ class PhysicalModelProject(models.Model):
     precision_tolerance = models.CharField(max_length=30, default="0.1mm", help_text="Fabrication accuracy")
     materials_used = models.CharField(
         max_length=255, 
+        blank=True,
         default="Laser-cut acrylic, basswood, SLA resin 3D print, brass rod joinery"
     )
     fabrication_methods = models.CharField(
         max_length=255, 
+        blank=True,
         default="Hybrid 3D Printing, Laser Cutting, CNC Milling, Hand Finishing"
     )
     dimensions_cm = models.CharField(max_length=50, blank=True, default="120 x 80 x 45 cm")
@@ -64,13 +66,13 @@ class PhysicalModelProject(models.Model):
 
 class FabricationSpecification(models.Model):
     project = models.OneToOneField(PhysicalModelProject, on_delete=models.CASCADE, related_name="specifications")
-    scale = models.CharField(max_length=30, default="1:50")
-    tolerance = models.CharField(max_length=30, default="0.1mm precision")
-    base_material = models.CharField(max_length=120, default="Precision laser-cut acrylic & American basswood")
-    finish = models.CharField(max_length=120, default="Satin architectural white, clear lacquered timber")
-    lead_time = models.CharField(max_length=50, default="3 - 4 weeks")
-    client = models.CharField(max_length=120, default="Architectural Studio / Developer")
-    status = models.CharField(max_length=50, default="Completed", choices=[
+    scale = models.CharField(max_length=30, blank=True, default="1:50")
+    tolerance = models.CharField(max_length=30, blank=True, default="0.1mm precision")
+    base_material = models.CharField(max_length=120, blank=True, default="")
+    finish = models.CharField(max_length=120, blank=True, default="Satin architectural white, clear lacquered timber")
+    lead_time = models.CharField(max_length=50, blank=True, default="3 - 4 weeks")
+    client = models.CharField(max_length=120, blank=True, default="Architectural Studio / Developer")
+    status = models.CharField(max_length=50, blank=True, default="Completed", choices=[
         ('In Fabrication', 'In Fabrication / 3D Printing'),
         ('Assembled', 'Assembled & Wired'),
         ('Delivered', 'Delivered & Installed')

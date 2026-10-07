@@ -52,16 +52,16 @@ class InteriorProject(models.Model):
 
 class InteriorSpecification(models.Model):
     project = models.OneToOneField(InteriorProject, on_delete=models.CASCADE, related_name="specifications")
-    area = models.CharField(max_length=50, default="450 m²", help_text="Floor area")
-    floors = models.PositiveIntegerField(default=1)
-    style = models.CharField(max_length=100, default="Contemporary Minimalist")
-    material_palette = models.CharField(max_length=255, default="Smoked oak, raw travertine, brass joinery")
-    lighting_design = models.CharField(max_length=255, default="Indirect warm 2700K LED coves, fluted pendants")
-    duration = models.CharField(max_length=50, default="12 months")
+    area = models.CharField(max_length=50, blank=True, default="450 m²", help_text="Floor area")
+    floors = models.PositiveIntegerField(default=1, blank=True)
+    style = models.CharField(max_length=100, blank=True, default="Contemporary Minimalist")
+    material_palette = models.CharField(max_length=255, blank=True, default="")
+    lighting_design = models.CharField(max_length=255, blank=True, default="Indirect warm 2700K LED coves, fluted pendants")
+    duration = models.CharField(max_length=50, blank=True, default="12 months")
     budget = models.CharField(max_length=50, blank=True, default="Confidential")
-    architect = models.CharField(max_length=120, default="ROHA Interior Studio")
-    client = models.CharField(max_length=120, default="Private Residence")
-    status = models.CharField(max_length=50, default="Completed", choices=[
+    architect = models.CharField(max_length=120, blank=True, default="ROHA Interior Studio")
+    client = models.CharField(max_length=120, blank=True, default="Private Residence")
+    status = models.CharField(max_length=50, blank=True, default="Completed", choices=[
         ('Concept', 'Concept & Spatial Planning'),
         ('In Progress', 'In Construction / Fit-Out'),
         ('Completed', 'Completed')

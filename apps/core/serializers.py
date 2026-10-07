@@ -25,11 +25,13 @@ class TeamMemberSerializer(serializers.ModelSerializer):
 
 
 class PageSectionSerializer(serializers.ModelSerializer):
+    background_image = FlexibleImageField(required=False, allow_null=True)
+
     class Meta:
         model = PageSection
         fields = [
             'id', 'section_key', 'heading', 'subheading', 'body_text',
-            'background_image', 'cta_text', 'cta_link', 'order'
+            'background_image', 'cta_text', 'cta_link', 'order', 'is_active'
         ]
 
 

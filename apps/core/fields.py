@@ -25,8 +25,8 @@ class FlexibleImageField(serializers.ImageField):
             if not clean:
                 return None
 
-            # If it's a static frontend placeholder, preserve as is
-            if clean.startswith('/tr/') or clean.startswith('/1.jpg') or clean.startswith('/3.jpg'):
+            # If it's a static frontend placeholder or root asset, preserve as is
+            if clean.startswith('/') and not clean.startswith('/uploads/') and not clean.startswith('/media/'):
                 return clean
 
             # Strip host if included
@@ -54,7 +54,7 @@ class FlexibleImageField(serializers.ImageField):
             return None
 
         # If it's a static frontend placeholder, return as is
-        if raw.startswith('/tr/') or raw.startswith('/1.jpg') or raw.startswith('/3.jpg'):
+        if raw.startswith('/') and not raw.startswith('/uploads/') and not raw.startswith('/media/'):
             return raw
 
         # If it already had a corrupted domain or nested /uploads/ in db

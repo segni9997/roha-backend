@@ -61,6 +61,18 @@ class PageDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PageSerializer
     lookup_field = 'slug'
 
+    def get_object(self):
+        slug = self.kwargs.get('slug')
+        page, _ = Page.objects.get_or_create(
+            slug=slug,
+            defaults={
+                'title': f"ROHA {slug.replace('-', ' ').title()}",
+                'meta_description': f"ROHA Studio {slug} page",
+                'is_active': True,
+            }
+        )
+        return page
+
 
 class PageSectionListCreateView(generics.ListCreateAPIView):
     serializer_class = PageSectionSerializer
@@ -74,7 +86,13 @@ class PageSectionListCreateView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         page_slug = self.kwargs.get('page_slug')
-        page = Page.objects.get(slug=page_slug)
+        page, _ = Page.objects.get_or_create(
+            slug=page_slug,
+            defaults={
+                'title': f"ROHA {page_slug.replace('-', ' ').title()}",
+                'is_active': True,
+            }
+        )
         serializer.save(page=page)
 
 

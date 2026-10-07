@@ -65,28 +65,84 @@ class Command(BaseCommand):
             )
 
         # 2. Pages & Sections (Page Builder)
-        pages_data = [
-            ("home", "Home — ROHA Architectural Studio", "Master craftsmanship in scale modeling and contemporary interior architecture."),
-            ("interior", "Interior Architecture & Spatial Curation", "Bespoke residential, penthouse, hospitality, and workspace interiors."),
-            ("model-making", "Precision Scale Architectural Model Making", "0.1mm tolerance architectural scale models using hybrid 3D printing and laser cutting."),
-            ("about", "About ROHA Studio", "Design manifesto, leadership, and architectural metrics."),
-            ("contact", "Consultation & Project Inquiry", "Contact our principal architects and model fabricators."),
-            ("gallery", "360 Virtual Reality Tour Archive", "Immersive virtual reality architectural walkthroughs."),
-        ]
-        for slug, title, desc in pages_data:
+        hero_sections_config = {
+            "home": {
+                "title": "Home — ROHA Architectural Studio",
+                "meta": "Master craftsmanship in scale modeling and contemporary interior architecture.",
+                "heading": "Mastery In Architectural Form & Interior Space",
+                "subheading": "ROHA Design Studio",
+                "body_text": "Bridging tactile scale modeling precision with transcendent bespoke interior architecture.",
+                "bg": copy_media("tr/279A1760.JPG", "pages/banners"),
+                "cta_text": "Discover Our Work",
+                "cta_link": "/interior",
+            },
+            "interior": {
+                "title": "Interior Architecture & Spatial Curation",
+                "meta": "Bespoke residential, penthouse, hospitality, and workspace interiors.",
+                "heading": "Art That Transforms Spaces",
+                "subheading": "Elevate Your Space",
+                "body_text": "Premium 3D wall art and bespoke architectural interior designs that bring life, elegance, and creativity to your spaces.",
+                "bg": copy_media("tr/279A1756.JPG", "pages/banners"),
+                "cta_text": "Explore Collection",
+                "cta_link": "#interior-archive",
+            },
+            "model-making": {
+                "title": "Precision Scale Architectural Model Making",
+                "meta": "0.1mm tolerance architectural scale models using hybrid 3D printing and laser cutting.",
+                "heading": "PRECISION MODELING.",
+                "subheading": "Modeling Making & Precision Fabrication",
+                "body_text": "Translating visionary blueprints into tangible, high-fidelity physical realities. Combining laser micro-cutting, high-resolution stereolithography, and artisanal hand-finishing with 0.1mm tolerance.",
+                "bg": copy_media("1.jpg", "pages/banners"),
+                "cta_text": "Explore Physical Archive",
+                "cta_link": "#models-archive",
+            },
+            "about": {
+                "title": "About ROHA Studio",
+                "meta": "Design manifesto, leadership, and architectural metrics.",
+                "heading": "Crafting Spatial Legacies",
+                "subheading": "Studio Philosophy",
+                "body_text": "Every line, cut, and texture is calculated to evoke deep emotional resonance and enduring spatial harmony.",
+                "bg": copy_media("tr/279A1768.JPG", "pages/banners"),
+                "cta_text": "Meet The Team",
+                "cta_link": "/about",
+            },
+            "contact": {
+                "title": "Consultation & Project Inquiry",
+                "meta": "Contact our principal architects and model fabricators.",
+                "heading": "Commission Your Vision",
+                "subheading": "Direct Consultation",
+                "body_text": "Begin an architectural dialogue with our lead modelers and spatial designers.",
+                "bg": copy_media("tr/279A1771.JPG", "pages/banners"),
+                "cta_text": "Start A Dialogue",
+                "cta_link": "/contactus",
+            },
+            "gallery": {
+                "title": "360 Virtual Reality Tour Archive",
+                "meta": "Immersive virtual reality architectural walkthroughs.",
+                "heading": "Immersive 360 Spatial Explorations",
+                "subheading": "Virtual Reality Tours",
+                "body_text": "Step inside photorealistic virtual environments and architectural spaces from any device.",
+                "bg": copy_media("confrence1.png", "pages/banners"),
+                "cta_text": "Launch VR Gallery",
+                "cta_link": "/gallery",
+            },
+        }
+
+        for slug, cfg in hero_sections_config.items():
             page, _ = Page.objects.get_or_create(
                 slug=slug,
-                defaults={"title": title, "meta_description": desc, "is_active": True}
+                defaults={"title": cfg["title"], "meta_description": cfg["meta"], "is_active": True}
             )
             PageSection.objects.update_or_create(
                 page=page,
                 section_key="hero",
                 defaults={
-                    "heading": title,
-                    "subheading": "ROHA Precision & Craft",
-                    "body_text": desc,
-                    "cta_text": "Start a Project",
-                    "cta_link": "/contactus",
+                    "heading": cfg["heading"],
+                    "subheading": cfg["subheading"],
+                    "body_text": cfg["body_text"],
+                    "background_image": cfg["bg"],
+                    "cta_text": cfg["cta_text"],
+                    "cta_link": cfg["cta_link"],
                     "order": 1,
                     "is_active": True,
                 }

@@ -28,6 +28,11 @@ class InteriorProjectListView(generics.ListCreateAPIView):
     search_fields = ['title', 'description', 'location']
     ordering_fields = ['order', 'year', 'created_at']
 
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return InteriorProjectDetailSerializer
+        return InteriorProjectListSerializer
+
 
 class InteriorProjectDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = InteriorProject.objects.all().select_related('category', 'specifications').prefetch_related('gallery_images')

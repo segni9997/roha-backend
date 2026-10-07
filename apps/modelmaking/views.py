@@ -29,6 +29,11 @@ class PhysicalModelProjectListView(generics.ListCreateAPIView):
     search_fields = ['title', 'description', 'materials_used', 'fabrication_methods']
     ordering_fields = ['order', 'year', 'scale_ratio']
 
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return PhysicalModelProjectDetailSerializer
+        return PhysicalModelProjectListSerializer
+
 
 class PhysicalModelProjectDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = PhysicalModelProject.objects.all().select_related('category', 'specifications').prefetch_related('gallery_images')
