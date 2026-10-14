@@ -25,9 +25,9 @@ class PhysicalModelProject(models.Model):
     slug = models.SlugField(max_length=220, unique=True, blank=True)
     category = models.ForeignKey(ModelCategory, on_delete=models.SET_NULL, related_name="projects", null=True, blank=True)
     categories = models.ManyToManyField(ModelCategory, related_name="multi_projects", blank=True)
-    scale_ratio = models.CharField(max_length=20, default="1:50", help_text="e.g. 1:50, 1:100, 1:200")
-    year = models.CharField(max_length=20, default="2024")
-    day = models.CharField(max_length=20, blank=True, default="Monday")
+    scale_ratio = models.CharField(max_length=50, default="1:50", help_text="e.g. 1:50, 1:100, 1:200")
+    year = models.CharField(max_length=50, default="2024")
+    day = models.CharField(max_length=255, blank=True, default="Monday")
     precision_tolerance = models.CharField(max_length=30, default="0.1mm", help_text="Fabrication accuracy")
     materials_used = models.CharField(
         max_length=255, 

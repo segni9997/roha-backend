@@ -43,6 +43,28 @@ class FlexibleImageField(serializers.ImageField):
 
             return clean
 
+        if hasattr(data, 'name') and hasattr(data, 'read'):
+            ext = os.path.splitext(data.name)[1].lower()
+            is_heic = ext in ('.heic', '.heif') or getattr(data, 'content_type', '') in ('image/heic', 'image/heif', 'image/heic-sequence', 'image/heif-sequence')
+            if is_heic:
+                try:
+                    from PIL import Image
+                    import io
+                    import pillow_heif
+                    from django.core.files.uploadedfile import SimpleUploadedFile
+                    pillow_heif.register_heif_opener()
+                    data.seek(0)
+                    img = Image.open(data)
+                    if img.mode != 'RGB':
+                        img = img.convert('RGB')
+                    buf = io.BytesIO()
+                    img.save(buf, format='JPEG', quality=92, optimize=True)
+                    buf.seek(0)
+                    new_name = os.path.splitext(data.name)[0] + '.jpg'
+                    data = SimpleUploadedFile(new_name, buf.getvalue(), content_type='image/jpeg')
+                except Exception:
+                    pass
+
         return super().to_internal_value(data)
 
     def to_representation(self, value):
