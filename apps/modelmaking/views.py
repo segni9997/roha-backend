@@ -22,7 +22,7 @@ class ModelCategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class PhysicalModelProjectListView(generics.ListCreateAPIView):
-    queryset = PhysicalModelProject.objects.all().select_related('category').order_by('order', '-created_at')
+    queryset = PhysicalModelProject.objects.all().select_related('category').prefetch_related('categories').order_by('order', '-created_at')
     serializer_class = PhysicalModelProjectListSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['category__slug', 'category__name', 'scale_ratio', 'is_featured', 'year']
@@ -36,7 +36,7 @@ class PhysicalModelProjectListView(generics.ListCreateAPIView):
 
 
 class PhysicalModelProjectDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = PhysicalModelProject.objects.all().select_related('category', 'specifications').prefetch_related('gallery_images')
+    queryset = PhysicalModelProject.objects.all().select_related('category', 'specifications').prefetch_related('categories', 'gallery_images')
     serializer_class = PhysicalModelProjectDetailSerializer
     lookup_field = 'pk'
 

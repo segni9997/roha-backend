@@ -21,7 +21,7 @@ class InteriorCategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class InteriorProjectListView(generics.ListCreateAPIView):
-    queryset = InteriorProject.objects.all().select_related('category').order_by('order', '-created_at')
+    queryset = InteriorProject.objects.all().select_related('category').prefetch_related('categories').order_by('order', '-created_at')
     serializer_class = InteriorProjectListSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['category__slug', 'category__name', 'is_featured', 'year']
@@ -35,7 +35,7 @@ class InteriorProjectListView(generics.ListCreateAPIView):
 
 
 class InteriorProjectDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = InteriorProject.objects.all().select_related('category', 'specifications').prefetch_related('gallery_images')
+    queryset = InteriorProject.objects.all().select_related('category', 'specifications').prefetch_related('categories', 'gallery_images')
     serializer_class = InteriorProjectDetailSerializer
     lookup_field = 'pk'
 

@@ -23,7 +23,8 @@ class InteriorCategory(models.Model):
 class InteriorProject(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=220, unique=True, blank=True)
-    category = models.ForeignKey(InteriorCategory, on_delete=models.CASCADE, related_name="projects")
+    category = models.ForeignKey(InteriorCategory, on_delete=models.SET_NULL, related_name="projects", null=True, blank=True)
+    categories = models.ManyToManyField(InteriorCategory, related_name="multi_projects", blank=True)
     location = models.CharField(max_length=150, default="Addis Ababa, Ethiopia")
     year = models.CharField(max_length=20, default="2024")
     description = models.TextField(help_text="Project overview and spatial curation philosophy")
@@ -47,7 +48,8 @@ class InteriorProject(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.title} ({self.category.name})"
+        cat_name = self.category.name if self.category else "Uncategorized"
+        return f"{self.title} ({cat_name})"
 
 
 class InteriorSpecification(models.Model):
@@ -79,7 +81,7 @@ class InteriorGalleryImage(models.Model):
     project = models.ForeignKey(InteriorProject, on_delete=models.CASCADE, related_name="gallery_images")
     image = models.ImageField(upload_to="interior/gallery/")
     caption = models.CharField(max_length=200, blank=True, help_text="e.g. Master Bedroom custom joinery")
-    subtitle = models.CharField(max_length=200, blank=True, default="Spatial Perspective")
+    subtitle = models.CharField(max_length=200, blank=True, default="")
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
