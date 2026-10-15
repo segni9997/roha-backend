@@ -49,8 +49,12 @@ class PageSerializer(serializers.ModelSerializer):
 
 class TrustedClientSerializer(serializers.ModelSerializer):
     logo = FlexibleImageField(required=False, allow_null=True)
+    background_image = FlexibleImageField(required=False, allow_null=True)
 
     class Meta:
         model = TrustedClient
-        fields = ['id', 'name', 'logo', 'industry', 'project_count', 'featured', 'order', 'website_url']
+        fields = [
+            'id', 'name', 'logo', 'background_image', 'industry', 'project_count',
+            'quote', 'spokesperson', 'location', 'rating', 'featured', 'order', 'website_url'
+        ]
 

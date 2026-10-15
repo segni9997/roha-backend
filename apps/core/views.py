@@ -110,6 +110,10 @@ class TrustedClientListView(generics.ListCreateAPIView):
     serializer_class = TrustedClientSerializer
     pagination_class = None
 
+    def delete(self, request, *args, **kwargs):
+        TrustedClient.objects.all().delete()
+        return response.Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class TrustedClientDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = TrustedClient.objects.all()
